@@ -7,7 +7,7 @@ trigger:
   - master
  
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
  
 steps:
   - task: NodeTool@0
@@ -27,19 +27,19 @@ steps:
     displayName: 'Install Playwright'
  
   - script: |
-      cd '$(Build.SourcesDirectory)'
+      cd '$(build.SourcesDirectory)'
       npx playwright test
     displayName: 'Run Playwright Tests'
     continueOnError: true
  
   - task: CopyFiles@2
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/playwright-report'
+      SourceFolder: '$(build.sourcesdirectory)/playwright-report'
       Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/playwright-report'
+      TargetFolder: '$(build.artifactstagingdirectory)'
  
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: '$(build.artifactstagingdirectory)'
       ArtifactName: 'drop'
       publishLocation: 'Container'

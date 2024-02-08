@@ -1,0 +1,8 @@
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="44.611769">
+<testsuite name="login.spec.js" timestamp="2024-02-08T06:03:28.934Z" hostname="chromium" tests="2" failures="0" skipped="0" time="32.654" errors="0">
+<testcase name="POC_UI Automation › Adding Item to cart based on the preference" classname="login.spec.js" time="15.652">
+</testcase>
+<testcase name="POC_UI Automation › To remove items from the cart " classname="login.spec.js" time="17.002">
+</testcase>
+</testsuite>
+</testsuites>

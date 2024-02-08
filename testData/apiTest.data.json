@@ -1,0 +1,19 @@
+{
+    "current_weather":{
+        "endPoint":"/current.json",
+        "location":"Amsterdam",
+        "queryParams":{
+            "q":"amsterdam",
+            "key":"8ec0d8ac5c6c40928fe83036240301"
+        }
+    },
+    "weather_forecast":{
+        "endPoint":"/forecast.json",
+        "location":"Bankok",
+        "queryParams":{
+            "q":"bankok",
+            "days":"5",
+            "key":"8ec0d8ac5c6c40928fe83036240301"
+        }
+    }
+}

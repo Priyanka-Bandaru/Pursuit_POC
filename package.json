@@ -6,7 +6,8 @@
   "scripts": {
     "testUI": "npx playwright test login.spec.js",
     "testAPI": "npx playwright test apiTest.spec.js",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "genallure":"npx allure generate allure-results"
   },
   "keywords": [],
   "author": "",

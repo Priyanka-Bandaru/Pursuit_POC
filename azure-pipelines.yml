@@ -4,42 +4,51 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-  - master
+- master
  
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
  
 steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '18.x'
-    displayName: 'Install Node.js'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
  
-  - script: |
-      cd '$(Build.SourcesDirectory)'
-      npm install
-    displayName: 'Install Dependencies'
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npm install
+  displayName: 'Install Dependencies'
  
-  - script: |
-      cd '$(Build.SourcesDirectory)'
-      npm install -D @playwright/test
-      npx playwright install
-    displayName: 'Install Playwright'
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npm install -D @playwright/test
+    npx playwright install
+  displayName: 'Install Playwright'
  
-  - script: |
-      cd '$(build.SourcesDirectory)'
-      npx playwright test
-    displayName: 'Run Playwright Tests'
-    continueOnError: true
- 
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(build.sourcesdirectory)/playwright-report'
-      Contents: '**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
- 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npx playwright test login.spec.js
+  displayName: 'Run Playwright Tests'
+  continueOnError: true
+
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npm run genReport
+  displayName: 'generate allure report'
+
+- task: PublishAllureReport@1
+  inputs:
+    reportDir: 'allure-report'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/allure-report'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'reports'
+    publishLocation: 'Container'

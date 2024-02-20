@@ -37,9 +37,7 @@ steps:
     npm run genReport
   displayName: 'generate allure report'
 
-- task: PublishAllureReport@1
-  inputs:
-    reportDir: 'allure-report'
+
 
 - task: CopyFiles@2
   inputs:

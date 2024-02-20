@@ -34,7 +34,7 @@ steps:
 
 - script: |
     cd '$(Build.SourcesDirectory)'
-    npm run genReport
+    npm generate allure-results --clean o allure-report
   displayName: 'generate allure report'
 
 - task: PublishAllureReport@1

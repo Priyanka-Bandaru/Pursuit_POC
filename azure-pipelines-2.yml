@@ -1,0 +1,49 @@
+trigger:
+- master
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+ 
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npm install
+  displayName: 'Install Dependencies'
+ 
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npm install -D @playwright/test
+    npx playwright install
+  displayName: 'Install Playwright'
+ 
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npx playwright test 
+  displayName: 'Run Playwright Tests'
+  continueOnError: true
+ 
+- script: |
+    cd '$(Build.SourcesDirectory)'
+    npm run genReport
+  displayName: 'generate allure report'
+ 
+- task: PublishAllureReport@1
+  inputs:
+    reportDir: 'allure-report'
+ 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/allure-report'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'reports'
+    publishLocation: 'Container'
